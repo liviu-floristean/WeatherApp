@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.mta.se.lab.Controller.ApplicationController">
+   <children>
+      <Label layoutX="50.0" layoutY="51.0" text="Country:" AnchorPane.leftAnchor="50.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="300.0" layoutY="51.0" text="City:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ComboBox layoutX="50.0" layoutY="89.0" prefWidth="150.0" />
+      <ComboBox layoutX="300.0" layoutY="89.0" prefWidth="150.0" />
+      <Pane layoutX="50.0" layoutY="143.0" prefHeight="200.0" prefWidth="506.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <Button layoutX="498.0" layoutY="89.0" mnemonicParsing="false" text="Search" />
+   </children>
+</AnchorPane>
