@@ -102,7 +102,7 @@ public class ApplicationController implements Initializable {
         cityLabel.setText(cityData.getCityName());
         countryLabel.setText(cityData.getCountryName());
 
-        String weatherData = cityData.getMainWeatherDescription() + ", " + cityData.getWeatherDescription();
+        String weatherData = cityData.getMainWeatherDescription() + ": " + cityData.getWeatherDescription();
         weatherLabel.setText(weatherData);
 
         double celsiusTemperature = Double.parseDouble(cityData.getTemperature());
@@ -117,6 +117,15 @@ public class ApplicationController implements Initializable {
 
         humidityLabel.setText("Humidity: "+ cityData.getHumidity() + "%");
         windLabel.setText("Wind: "+ cityData.getWindSpeed() + "m/s");
+    }
+
+    private void writeSearchHistory() throws IOException {
+        FileWriter file = new FileWriter(Paths.get("").toAbsolutePath().toString() + "\\src\\main\\java\\ro\\mta\\se\\lab\\search_history.txt", true);
+
+        file.write(dateLabel.getText() + ": " + cityComboBox.getValue() + " " + countryComboBox.getValue()
+                + " - temperature registered is " + temperatureLabel.getText() +"\n");
+
+        file.close();
     }
 
     public void chooseCountry(ActionEvent event)
@@ -177,5 +186,6 @@ public class ApplicationController implements Initializable {
 
         parseJson();
         fillData();
+        writeSearchHistory();
     }
 }
