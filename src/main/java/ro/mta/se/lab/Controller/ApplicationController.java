@@ -1,14 +1,11 @@
 package ro.mta.se.lab.Controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.Buffer;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.nio.file.Paths;
+import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,10 +13,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import ro.mta.se.lab.Model.City;
 import ro.mta.se.lab.ParserFile;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
 
 public class ApplicationController implements Initializable {
 
+    private ObservableList<City> cityData;
     private ParserFile parser;
     private ArrayList<String> cityList;
     ObservableList<String> countryList;
@@ -36,8 +39,6 @@ public class ApplicationController implements Initializable {
         this.parser = new ParserFile();
         parser.parse();
 
-    //    countryList = FXCollections.observableArrayList("Germany", "Romania", "Russia");
-
         countryList = parser.getCountryList();
         cityList = parser.getCities();
     }
@@ -45,6 +46,27 @@ public class ApplicationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryComboBox.setItems(countryList);
+    }
+
+    private void parseJson() throws IOException, ParseException {
+        Object obj = new JSONParser().parse(new FileReader(Paths.get("").toAbsolutePath().toString() + "\\src\\main\\java\\ro\\mta\\se\\lab\\json.txt"));
+        JSONObject jo = (JSONObject) obj;
+
+        Map sys = (Map)jo.get("sys");
+        String city = (String)jo.get("name");
+
+        JSONArray weather = (JSONArray) jo.get("weather");
+        Map wind = (Map)jo.get("wind");
+        Map main = (Map)jo.get("main");
+        Map weather0 = (Map)weather.get(0);
+
+        System.out.println(sys.get("country"));
+        System.out.println(city);
+        System.out.println(weather0.get("main"));
+        System.out.println(weather0.get("description"));
+        System.out.println(wind.get("speed"));
+        System.out.println(main.get("temp"));
+        System.out.println(main.get("humidity"));
     }
 
     public void chooseCountry(ActionEvent event)
@@ -63,7 +85,7 @@ public class ApplicationController implements Initializable {
         cityComboBox.setItems(validCities);
     }
 
-    public void chooseCity(ActionEvent event) throws IOException {
+    public void chooseCity(ActionEvent event) throws IOException, ParseException {
         String selectedCountry = countryComboBox.getValue();
         String selectedCity = cityComboBox.getValue();
         String urlString = "https://api.openweathermap.org/data/2.5/weather?q="+selectedCity+","+selectedCountry+"&APPID=583ce53a85b6d57fbe498249c2f341a8";
@@ -71,6 +93,7 @@ public class ApplicationController implements Initializable {
         BufferedReader reader;
         String line;
         StringBuffer responseContent = new StringBuffer();
+        FileWriter jsonFile = new FileWriter(Paths.get("").toAbsolutePath().toString() + "\\src\\main\\java\\ro\\mta\\se\\lab\\json.txt");
 
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -80,7 +103,6 @@ public class ApplicationController implements Initializable {
         connection.setReadTimeout(5000);
 
         int status = connection.getResponseCode();
-    //    System.out.println(status);
 
         if(status>200)
         {
@@ -88,7 +110,7 @@ public class ApplicationController implements Initializable {
 
             while((line = reader.readLine()) != null)
             {
-                responseContent.append(line);
+                jsonFile.write(line);
             }
             reader.close();
         }
@@ -98,24 +120,13 @@ public class ApplicationController implements Initializable {
 
             while((line = reader.readLine()) != null)
             {
-                responseContent.append(line);
+                jsonFile.write(line);
             }
             reader.close();
         }
-        System.out.println(responseContent.toString());
+        jsonFile.close();
+        connection.disconnect();
 
-
-    //    InputStream instream = connection.getInputStream();
-     //   BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
-
-     //   while(reader.readLine() != null)
-     //   {
-     //       json_str = reader.readLine();
-     //       System.out.println(json_str);
-     //   }
-
-    //    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-    //    System.out.println(in);
+        parseJson();
     }
 }
