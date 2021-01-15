@@ -16,19 +16,19 @@ import java.util.HashSet;
 
 public class ParserFile {
     private File configFile;
-    private HashMap<String, String> cities;
+    private ArrayList<String> cities;
     private ArrayList<String> row;
     private ObservableList<String> countryList;
 
     public ParserFile() throws FileNotFoundException
     {
         this.configFile = new File(Paths.get("").toAbsolutePath().toString() + "\\src\\main\\java\\ro\\mta\\se\\lab\\infile.txt");
-        this.cities = new HashMap<String, String>();
+        this.cities = new ArrayList<String>();
         this.row = new ArrayList<String>();
         this.countryList = FXCollections.observableArrayList();
     }
 
-    public HashMap<String, String> getCities() {
+    public ArrayList<String> getCities() {
         return cities;
     }
 
@@ -49,7 +49,10 @@ public class ParserFile {
             city = value[1];
             country = value[4];
 
-            cities.put(country, city);
+        //    cities.put(city, country);
+
+            cities.add(country);
+            cities.add(city);
 
             uniqueCountry.add(country);
         }
