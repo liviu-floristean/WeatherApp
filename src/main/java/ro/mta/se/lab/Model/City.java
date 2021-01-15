@@ -1,9 +1,10 @@
 package ro.mta.se.lab.Model;
 
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class City {
+public class City{
 
     StringProperty cityName;
     StringProperty countryName;

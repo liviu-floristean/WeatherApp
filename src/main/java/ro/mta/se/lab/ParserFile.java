@@ -1,6 +1,5 @@
 package ro.mta.se.lab;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,7 +10,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class ParserFile {

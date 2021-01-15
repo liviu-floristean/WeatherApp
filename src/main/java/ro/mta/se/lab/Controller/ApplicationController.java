@@ -7,12 +7,14 @@ import java.nio.Buffer;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import ro.mta.se.lab.Model.City;
 import ro.mta.se.lab.ParserFile;
 
@@ -20,12 +22,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 public class ApplicationController implements Initializable {
 
-    private ObservableList<City> cityData;
+    private City cityData;
     private ParserFile parser;
     private ArrayList<String> cityList;
-    ObservableList<String> countryList;
+    private ObservableList<String> countryList;
 
     @FXML
     private ComboBox<String> countryComboBox;
@@ -33,10 +38,38 @@ public class ApplicationController implements Initializable {
     @FXML
     private ComboBox<String> cityComboBox;
 
+    @FXML
+    private Label cityLabel;
+
+    @FXML
+    private Label dateLabel;
+
+    @FXML
+    private Label weatherLabel;
+
+    @FXML
+    private Label temperatureLabel;
+
+    @FXML
+    private Label countryLabel;
+
+    @FXML
+    private Label humidityLabel;
+
+    @FXML
+    private Label windLabel;
+
     public ApplicationController() throws IOException {
         this.cityList = new ArrayList<String>();
         this.countryComboBox = new ComboBox<String>();
         this.parser = new ParserFile();
+        this.cityLabel = new Label();
+        this.dateLabel = new Label();
+        this.weatherLabel = new Label();
+        this.temperatureLabel = new Label();
+        this.humidityLabel = new Label();
+        this.windLabel = new Label();
+
         parser.parse();
 
         countryList = parser.getCountryList();
@@ -60,13 +93,30 @@ public class ApplicationController implements Initializable {
         Map main = (Map)jo.get("main");
         Map weather0 = (Map)weather.get(0);
 
-        System.out.println(sys.get("country"));
-        System.out.println(city);
-        System.out.println(weather0.get("main"));
-        System.out.println(weather0.get("description"));
-        System.out.println(wind.get("speed"));
-        System.out.println(main.get("temp"));
-        System.out.println(main.get("humidity"));
+        cityData = new City(city, sys.get("country").toString(), weather0.get("main").toString(), weather0.get("description").toString(), wind.get("speed").toString(),
+                main.get("temp").toString(), main.get("humidity").toString());
+    }
+
+    private void fillData()
+    {
+        cityLabel.setText(cityData.getCityName());
+        countryLabel.setText(cityData.getCountryName());
+
+        String weatherData = cityData.getMainWeatherDescription() + ", " + cityData.getWeatherDescription();
+        weatherLabel.setText(weatherData);
+
+        double celsiusTemperature = Double.parseDouble(cityData.getTemperature());
+        celsiusTemperature -= 273;
+
+        long intTemperature = Math.round(celsiusTemperature);
+        temperatureLabel.setText(String.valueOf(intTemperature) + " C");
+
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        dateLabel.setText((date.format(now)).toString());
+
+        humidityLabel.setText("Humidity: "+ cityData.getHumidity() + "%");
+        windLabel.setText("Wind: "+ cityData.getWindSpeed() + "m/s");
     }
 
     public void chooseCountry(ActionEvent event)
@@ -99,8 +149,6 @@ public class ApplicationController implements Initializable {
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 
         connection.setRequestMethod("POST");
-        connection.setConnectTimeout(5000);
-        connection.setReadTimeout(5000);
 
         int status = connection.getResponseCode();
 
@@ -128,5 +176,6 @@ public class ApplicationController implements Initializable {
         connection.disconnect();
 
         parseJson();
+        fillData();
     }
 }
