@@ -1,0 +1,8 @@
+
+23:48 15-01-2021: Berlin DE - temperature registered is -2 C
+23:48 15-01-2021: Frankfurt DE - temperature registered is 1 C
+23:48 15-01-2021: Berlin DE - temperature registered is -2 C
+23:48 15-01-2021: Helsinki FI - temperature registered is -14 C
+23:48 15-01-2021: Joensuu FI - temperature registered is -19 C
+23:48 15-01-2021: Stockholm SE - temperature registered is -6 C
+23:48 15-01-2021: Gothenburg SE - temperature registered is -7 C
