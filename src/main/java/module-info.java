@@ -7,4 +7,5 @@ module ro.mta.se.lab {
 
     opens ro.mta.se.lab.Controller to javafx.fxml;
     exports ro.mta.se.lab;
+    exports ro.mta.se.lab.Controller to junit;
 }

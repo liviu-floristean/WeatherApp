@@ -1,13 +1,14 @@
 package ro.mta.se.lab.Controller;
 
-import org.junit.Test;
-import ro.mta.se.lab.App;
+
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
 public class ApplicationControllerTest {
+//    @RunWith(JfxRunner.class)
+
     ApplicationController controller;
-    @Test
     @org.junit.Before
     public void setUp() throws Exception {
         controller = new ApplicationController();
