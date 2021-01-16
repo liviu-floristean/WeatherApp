@@ -34,6 +34,10 @@ public class ParserFile {
         return countryList;
     }
 
+    public File getConfigFile() {
+        return configFile;
+    }
+
     public void parse() throws IOException
     {
         String city, country;
