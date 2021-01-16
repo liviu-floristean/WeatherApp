@@ -18,6 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("/view/ApplicationView"), 640, 480);
+        stage.setTitle("Weather Application");
         stage.setScene(scene);
         stage.show();
     }

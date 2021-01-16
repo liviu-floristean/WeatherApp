@@ -3,11 +3,9 @@ package ro.mta.se.lab.Controller;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.Buffer;
 import java.nio.file.Paths;
 import java.util.*;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,6 +32,14 @@ public class ApplicationController implements Initializable {
 
     @FXML
     private ComboBox<String> countryComboBox;
+
+    public ComboBox<String> getCountryComboBox() {
+        return countryComboBox;
+    }
+
+    public ComboBox<String> getCityComboBox() {
+        return cityComboBox;
+    }
 
     @FXML
     private ComboBox<String> cityComboBox;
@@ -153,34 +159,38 @@ public class ApplicationController implements Initializable {
         String line;
         StringBuffer responseContent = new StringBuffer();
         FileWriter jsonFile = new FileWriter(Paths.get("").toAbsolutePath().toString() + "\\src\\main\\java\\ro\\mta\\se\\lab\\json.txt");
-
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 
-        connection.setRequestMethod("POST");
+        try {
+            connection.setRequestMethod("POST");
 
-        int status = connection.getResponseCode();
+            int status = connection.getResponseCode();
 
-        if(status>200)
-        {
-            reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-
-            while((line = reader.readLine()) != null)
+            if(status>200)
             {
-                jsonFile.write(line);
-            }
-            reader.close();
-        }
-        else
-        {
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
 
-            while((line = reader.readLine()) != null)
-            {
-                jsonFile.write(line);
+                while((line = reader.readLine()) != null)
+                {
+                    jsonFile.write(line);
+                }
+                reader.close();
             }
-            reader.close();
+            else
+            {
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                while((line = reader.readLine()) != null)
+                {
+                    jsonFile.write(line);
+                }
+                reader.close();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
         }
+
         jsonFile.close();
         connection.disconnect();
 

@@ -6,3 +6,21 @@
 23:48 15-01-2021: Joensuu FI - temperature registered is -19 C
 23:48 15-01-2021: Stockholm SE - temperature registered is -6 C
 23:48 15-01-2021: Gothenburg SE - temperature registered is -7 C
+11:20 16-01-2021: Berlin DE - temperature registered is -1 C
+11:20 16-01-2021: Frankfurt DE - temperature registered is 0 C
+11:20 16-01-2021: Tokyo JP - temperature registered is 12 C
+11:20 16-01-2021: Shinjo JP - temperature registered is 3 C
+11:21 16-01-2021: Warsaw PL - temperature registered is -6 C
+11:39 16-01-2021: Berlin DE - temperature registered is -1 C
+11:54 16-01-2021: Berlin DE - temperature registered is -1 C
+11:54 16-01-2021: Frankfurt DE - temperature registered is 0 C
+11:54 16-01-2021: Tokyo JP - temperature registered is 11 C
+11:54 16-01-2021: Shinjo JP - temperature registered is 3 C
+12:09 16-01-2021: Berlin DE - temperature registered is -1 C
+12:09 16-01-2021: Frankfurt DE - temperature registered is 0 C
+12:09 16-01-2021: Moscow RU - temperature registered is -15 C
+12:10 16-01-2021: Saint Petersburg RU - temperature registered is -15 C
+12:10 16-01-2021: London GB - temperature registered is 5 C
+12:17 16-01-2021: Berlin DE - temperature registered is -1 C
+12:17 16-01-2021: Moscow RU - temperature registered is -15 C
+12:17 16-01-2021: Saint Petersburg RU - temperature registered is -15 C
