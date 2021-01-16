@@ -3,7 +3,23 @@ package ro.mta.se.lab.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Clasa care contine toate datele despre un oras
+ * ales de catre utilizator.
+ *
+ * @author Floriștean Liviu
+ */
+
 public class City{
+
+    /**
+     * Descrierea membrilor
+     *
+     * Toti membrii sunt de tip StringProperty si
+     * reprezinta datele de baza pe care aplicatia
+     * le va afisa in urma alegerii facute de catre
+     * utilizator.
+     */
 
     StringProperty cityName;
     StringProperty countryName;
@@ -12,6 +28,19 @@ public class City{
     StringProperty windSpeed;
     StringProperty temperature;
     StringProperty humidity;
+
+    /**
+     * Constructorul clasei City
+     * Acesta primeste ca parametrii cate un string pentru
+     * fiecare membru care intra in componenta clasei.
+     * @param city_name
+     * @param country_name
+     * @param main_weather
+     * @param weather
+     * @param wind
+     * @param temper
+     * @param humid
+     */
 
     public City(String city_name, String country_name, String main_weather, String weather, String wind, String temper, String humid)
     {
@@ -23,6 +52,12 @@ public class City{
         temperature = new SimpleStringProperty(temper);
         humidity = new SimpleStringProperty(humid);
     }
+
+    /**
+     * Urmatoarele metode reprezinta getters si setters pentru
+     * fiecare membru din clasa.
+     *
+     */
 
     public String getCityName() {
         return cityName.get();

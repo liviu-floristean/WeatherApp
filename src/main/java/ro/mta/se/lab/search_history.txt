@@ -30,3 +30,9 @@
 14:23 16-01-2021: Shinjo JP - temperature registered is 3 C
 14:39 16-01-2021: Berlin DE - temperature registered is 0 C
 14:39 16-01-2021: Frankfurt DE - temperature registered is 0 C
+18:18 16-01-2021: Frankfurt DE - temperature registered is 0 C
+18:18 16-01-2021: Berlin DE - temperature registered is 0 C
+18:18 16-01-2021: Helsinki FI - temperature registered is -20 C
+18:18 16-01-2021: Joensuu FI - temperature registered is -19 C
+18:19 16-01-2021: London GB - temperature registered is 7 C
+18:19 16-01-2021: Manchester GB - temperature registered is 8 C
