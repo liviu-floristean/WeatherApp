@@ -1,6 +1,9 @@
 package ro.mta.se.lab.Controller;
 
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
@@ -9,25 +12,25 @@ public class ApplicationControllerTest {
 //    @RunWith(JfxRunner.class)
 
     ApplicationController controller;
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
         controller = new ApplicationController();
         System.out.println("Before done");
     }
 
-    @org.junit.After
+    @After
     public void tearDown() throws Exception {
         System.out.println("After done");
     }
 
-    @org.junit.Test
+    @Test
     public void chooseCountry() {
-        assertNotNull(controller.getCountryComboBox());
+        assertNotNull(controller.getCountryList());
     }
 
-    @org.junit.Test
+    @Test
     public void chooseCity() {
-        assertNotNull(controller.getCityComboBox());
-        assertNotNull(controller.getCountryComboBox());
+        assertNotNull(controller.getCityList());
+        assertNotNull(controller.getCountryList());
     }
 }

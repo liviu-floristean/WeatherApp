@@ -10,6 +10,9 @@ import java.io.IOException;
 
 /**
  * JavaFX App
+ *
+ * Aceasta este clasa principala din aplicatie si
+ * a fost completata automat la crearea proiectului.
  */
 public class App extends Application {
 

@@ -23,7 +23,37 @@ import org.json.simple.parser.*;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
+/**
+ * Aceasta clasa contine functionalitatea de baza a aplicatiei,
+ * intrucat comunica cu interfata grafica si proceseaza datele.
+ * @author Floriștean Liviu
+ */
+
 public class ApplicationController implements Initializable {
+
+    /**
+     * Descrierea membrilor clasei:
+     *
+     * <b>cityData</b> este un obiect de tip City si contine toate
+     * informatiile despre vremea intr-un oras
+     *
+     * <b>parser</b> este un obiect de tip parser si are rolul de
+     * a parsa fisierul de intrare
+     *
+     * <b>cityList</b> este un obiect de tip ArrayList si contine
+     * toate orasele gasite in fisierul de intrare
+     *
+     * <b>countryList</b> este un obiect de tip ObservableList
+     * si contine toate tarile gasite in fisierul de intrare, fara
+     * duplicate
+     *
+     * <p>Restul elementelor reprezinta componentele care alcatuiesc
+     * interfata grafica. Cele doua combobox-uri au rolul de a oferi
+     * utilizatorului posibilitatea de a alege tara si orasul pentru
+     * care doreste sa cunoasca vremea. Restul componentelor sunt de
+     * tip Label si au rol de afisare a datelor procesare de aceasta
+     * clasa.</p>
+     */
 
     private City cityData;
     private ParserFile parser;
@@ -32,14 +62,6 @@ public class ApplicationController implements Initializable {
 
     @FXML
     private ComboBox<String> countryComboBox;
-
-    public ComboBox<String> getCountryComboBox() {
-        return countryComboBox;
-    }
-
-    public ComboBox<String> getCityComboBox() {
-        return cityComboBox;
-    }
 
     @FXML
     private ComboBox<String> cityComboBox;
@@ -65,6 +87,13 @@ public class ApplicationController implements Initializable {
     @FXML
     private Label windLabel;
 
+    /**
+     * Constructorul clasei, in acesta se initializeaza toti membrii
+     * si se parseaza fisierul de intrare. Cu datele obtinute din el
+     * se vor popula membrii countryList si cityList.
+     * @throws IOException
+     */
+
     public ApplicationController() throws IOException {
         this.cityList = new ArrayList<String>();
         this.countryComboBox = new ComboBox<String>();
@@ -82,10 +111,33 @@ public class ApplicationController implements Initializable {
         cityList = parser.getCities();
     }
 
+    /**
+     * Metoda de initializare a combobox-ului pentru tari.
+     * @param url
+     * @param resourceBundle
+     */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryComboBox.setItems(countryList);
     }
+
+    public ArrayList<String> getCityList() {
+        return cityList;
+    }
+
+    public ObservableList<String> getCountryList() {
+        return countryList;
+    }
+
+    /**
+     * Metoda pentru parsarea fisierului JSON, care contine datele
+     * primite de la API. S-a folosit json-simple pentru obtinerea
+     * datelor care ne intereseaza in cadrul rularii aplicatiei. Cu
+     * datele obtinute se va construi obiectul de tip cityData.
+     * @throws IOException
+     * @throws ParseException
+     */
 
     private void parseJson() throws IOException, ParseException {
         Object obj = new JSONParser().parse(new FileReader(Paths.get("").toAbsolutePath().toString() + "\\src\\main\\java\\ro\\mta\\se\\lab\\json.txt"));
@@ -102,6 +154,12 @@ public class ApplicationController implements Initializable {
         cityData = new City(city, sys.get("country").toString(), weather0.get("main").toString(), weather0.get("description").toString(), wind.get("speed").toString(),
                 main.get("temp").toString(), main.get("humidity").toString());
     }
+
+    /**
+     * Metoda care are rolul de a afisa in interfata grafica toate
+     * datele referitoare la vremea in orasul selectat de catre
+     * utilizator.
+     */
 
     private void fillData()
     {
@@ -125,6 +183,12 @@ public class ApplicationController implements Initializable {
         windLabel.setText("Wind: "+ cityData.getWindSpeed() + "m/s");
     }
 
+    /**
+     * Metoda care are rolul de a scrie intr-un fisier de iesire tot
+     * istoricul cautarilor aplicatiei.
+     * @throws IOException
+     */
+
     private void writeSearchHistory() throws IOException {
         FileWriter file = new FileWriter(Paths.get("").toAbsolutePath().toString() + "\\src\\main\\java\\ro\\mta\\se\\lab\\search_history.txt", true);
 
@@ -133,6 +197,13 @@ public class ApplicationController implements Initializable {
 
         file.close();
     }
+
+    /**
+     * Metoda de functionalitate a combobox-ului countryComboBox.
+     * Acesta este populat cu datele obtinute din parser si este
+     * necesar pentru alegerea ulterioara a unui oras.
+     * @param event
+     */
 
     public void chooseCountry(ActionEvent event)
     {
@@ -149,6 +220,20 @@ public class ApplicationController implements Initializable {
 
         cityComboBox.setItems(validCities);
     }
+
+    /**
+     * Metoda de functionalitate a combobox-ului cityComboBox.
+     * Este necesara alegerea unei tari din celalalt combobox,
+     * deoarece in functie de tara aleasa se vor afisa orasele
+     * valide. In urma alegerii unui oras, aplicatia va face o
+     * cerere catre API pentru a primi datele corespunzatoare
+     * orasului ales. Datele primite sunt salvate ulterior in
+     * fisierul json.txt. Acesta va fi parsat, iar datele din
+     * acesta vor fi afisate in interfata grafica.
+     * @param event
+     * @throws IOException
+     * @throws ParseException
+     */
 
     public void chooseCity(ActionEvent event) throws IOException, ParseException {
         String selectedCountry = countryComboBox.getValue();
